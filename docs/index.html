@@ -60,15 +60,14 @@
     .wrap{max-width:1120px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
 
     /* ── HERO ── */
-    .hero-band{position:relative; overflow:hidden;}
-    .hero-band::before{content:""; position:absolute; inset:0; z-index:0;
-      background:url('static/images/busan_bg.jpg') center 28%/cover no-repeat; opacity:.26;}
-    html[data-theme="dark"] .hero-band::before{opacity:.4;}
-    .hero-band::after{content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
-      background:
-        radial-gradient(120% 80% at 50% -10%, transparent 40%, var(--bg) 88%),
-        linear-gradient(to bottom, color-mix(in srgb,var(--bg) 35%,transparent), transparent 30%, var(--bg) 96%);}
-    .hero{position:relative; z-index:1; text-align:center; padding:76px 0 40px;}
+    .hero-band{position:relative; overflow:hidden; background:var(--bg);}
+    .hero{position:relative; z-index:1; text-align:center; padding:70px 0 4px;}
+    /* Gwangan Bridge skyline — seamless, borderless, blends into the page */
+    .heroshot{position:relative; max-width:600px; margin:2px auto -4px; line-height:0;}
+    .heroshot img.shot{width:100%; height:190px; object-fit:cover; object-position:center 60%; display:block;
+      -webkit-mask:linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      mask:linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);}
+    @media(max-width:640px){ .heroshot img.shot{height:140px;} }
     .kicker{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; letter-spacing:.4px;
       color:var(--navy); background:color-mix(in srgb,var(--accent) 12%,transparent);
       border:1px solid color-mix(in srgb,var(--accent) 24%,transparent); padding:6px 15px; border-radius:999px;}
@@ -81,15 +80,14 @@
     .hero p b{color:var(--fg);}
     .badges{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:24px;}
     .badges img{height:27px;}
-    .boogi{position:absolute; z-index:2; bottom:-30px; right:calc(50% - 560px + 8px); width:132px; pointer-events:none;
-      filter:drop-shadow(0 14px 20px rgba(20,45,100,.28)); animation:bob 4.5s ease-in-out infinite;}
-    @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg);}50%{transform:translateY(-11px) rotate(1.5deg);}}
-    @media(max-width:1180px){ .boogi{right:14px;} }
-    @media(max-width:640px){ .boogi{width:92px; bottom:-18px;} }
+    .heroshot .boogi{position:absolute; right:-52px; bottom:-4px; width:92px; z-index:3; pointer-events:none;
+      animation:bob 4.5s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg);}50%{transform:translateY(-9px) rotate(1.5deg);}}
+    @media(max-width:640px){ .heroshot .boogi{width:64px; right:-20px;} }
 
     /* ── THREE CIRCLES ── */
     .circles{position:relative; display:flex; justify-content:center; align-items:flex-start; gap:44px;
-      flex-wrap:wrap; padding:26px 0 8px;}
+      flex-wrap:wrap; padding:20px 0 8px; margin-top:6px;}
     .circles::before{content:""; position:absolute; top:96px; left:12%; right:12%; height:2px;
       background:repeating-linear-gradient(90deg,var(--line) 0 8px, transparent 8px 16px); z-index:0;}
     .node{position:relative; z-index:1; width:238px; text-decoration:none; display:flex; flex-direction:column;
@@ -175,11 +173,14 @@
   </nav>
 
   <div class="hero-band">
-    <img class="boogi" src="static/images/boogi.png" alt="Boogi — Busan mascot">
     <div class="wrap">
       <header class="hero">
         <h1>BTS</h1>
         <div class="expand"><span class="b">B</span>usan <span class="b">T</span>oken-pruning <span class="b">S</span>eries <span class="bolt">⚡</span></div>
+        <div class="heroshot">
+          <img class="shot" src="static/images/busan_night.png" alt="Busan · Gwangan Bridge at night">
+          <img class="boogi" src="static/images/boogi.png" alt="Boogi — Busan mascot">
+        </div>
         <p>BTS is a curated series of training-free <b>token &amp; KV-cache pruning methods</b> that
           <b>⚡ prune away redundancy</b> while preserving performance across <b>image, 3D, and text</b> — on a mission
           to become the <b>first pruning series with a method for every modality</b>, from the
@@ -187,10 +188,12 @@
         <div class="badges">
           <a href="https://github.com/higokri/BTS/stargazers"><img src="https://img.shields.io/github/stars/higokri/BTS?style=social" alt="stars"></a>
           <img src="https://img.shields.io/badge/Modalities-Image_%C2%B7_3D_%C2%B7_Text-2f6fe0" alt="modalities">
-          <img src="https://img.shields.io/badge/%E2%9A%A1_Approach-Training--free-06c29c" alt="training-free">
         </div>
       </header>
+    </div>
+  </div>
 
+  <div class="wrap">
       <div class="circles">
         <a class="node img reveal" href="https://paper.pnu-cvsp.com/AgilePruner/" target="_blank">
           <div class="ring"><span class="chip">Image</span><span class="emoji">🖼️</span><span class="mod">2D Vision</span></div>
@@ -211,7 +214,6 @@
           <span class="go">Visit page <i class="fas fa-arrow-right"></i></span>
         </a>
       </div>
-    </div>
   </div>
 
   <div class="wrap">
