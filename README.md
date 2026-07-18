@@ -25,7 +25,6 @@
 | | Project | Modality | Venue | Highlight | Links |
 |---|---------|----------|-------|-----------|-------|
 | 🖼️ | **AgilePruner** | Image | ICLR 2026 | Prunes visual tokens via complexity, diversity & attention analysis | [Page](https://paper.pnu-cvsp.com/AgilePruner/) |
-| 🖼️ | **UG-MWIS** | Image | CVPR 2026 Findings | Uncertainty-guided MWIS graph pruning for LVLMs — 90% tokens cut, 98.4% kept | [Paper](https://openaccess.thecvf.com/content/CVPR2026F/html/Song_Uncertainty-Guided_Graph_Formulation_via_MWIS_for_Token_Pruning_in_LVLMs_CVPRF_2026_paper.html) |
 | 🧊 | **3DZip** | 3D | ECCV 2026 | 94.7% performance with 128 tokens, 1.92× faster | [Page](https://paper.pnu-cvsp.com/3DZip/) · [Code](https://github.com/cvsp-lab/3DZip) |
 | 💬 | **HybridKV** | Text | ICMLw 2026 | Query-agnostic KV compression, up to 36% less overhead | [Page](https://higokri.github.io/HybridKV/) · [Code](https://github.com/higokri/HybridKV) · [Paper](https://openreview.net/forum?id=sWF4OAXw7u) |
 
