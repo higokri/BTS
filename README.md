@@ -32,8 +32,7 @@
 
 The **Busan Token-pruning Series** is not confined to a single modality. It shares one goal —
 **⚡ prune redundant tokens without any training** for efficient inference — while each work develops its **own method**
-suited to its domain: spatial grids for **3D**, attention heads for **language**, and visual tokens for **images**.
-A common goal, modality-specific solutions.
+for a different modality: **image**, **3D**, and **text**. A common goal, modality-specific solutions.
 
 ## 🙏 Acknowledgements
 
