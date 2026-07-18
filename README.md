@@ -1,7 +1,8 @@
 <h1 align="center">BTS ⚡ Busan Token-pruning Series</h1>
 
 <p align="center">
-  <b>B</b>usan <b>T</b>oken-pruning <b>S</b>eries — a curated collection of <b>training-free</b> token &amp; KV-cache
+  As foundation models go <b>multimodal</b>, every modality drowns in redundant tokens.
+  <b>B</b>usan <b>T</b>oken-pruning <b>S</b>eries is a curated collection of <b>training-free</b> token &amp; KV-cache
   pruning methods across <b>image</b>, <b>3D</b>, and <b>text</b> modalities, from the
   <a href="https://www.pnu-cvsp.com/">PNU-CVSP</a> lab.
 </p>
