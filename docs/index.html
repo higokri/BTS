@@ -82,8 +82,10 @@
     .badges img{height:27px;}
     .heroshot .boogi{position:absolute; right:-52px; bottom:-4px; width:92px; z-index:3; pointer-events:none;
       animation:bob 4.5s ease-in-out infinite;}
+    .heroshot .cvsp{position:absolute; left:-58px; bottom:-6px; width:112px; z-index:3; pointer-events:none;
+      animation:bob 5s ease-in-out infinite;}
     @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg);}50%{transform:translateY(-9px) rotate(1.5deg);}}
-    @media(max-width:640px){ .heroshot .boogi{width:64px; right:-20px;} }
+    @media(max-width:640px){ .heroshot .boogi{width:64px; right:-20px;} .heroshot .cvsp{width:78px; left:-22px;} }
 
     /* ── THREE CIRCLES ── */
     .circles{position:relative; display:flex; justify-content:center; align-items:flex-start; gap:44px;
@@ -178,6 +180,7 @@
         <h1>BTS</h1>
         <div class="expand"><span class="b">B</span>usan <span class="b">T</span>oken-pruning <span class="b">S</span>eries <span class="bolt">⚡</span></div>
         <div class="heroshot">
+          <img class="cvsp" src="static/images/cvsp_mascot.png" alt="CVSP mascot">
           <img class="shot" src="static/images/busan_night.png" alt="Busan · Gwangan Bridge at night">
           <img class="boogi" src="static/images/boogi.png" alt="Boogi — Busan mascot">
         </div>
