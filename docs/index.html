@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BTS — Busan Token Pruning Series</title>
+  <meta name="description" content="BTS (Busan Token Pruning Series): a curated collection of training-free token & KV cache pruning methods across image, 3D, and text modalities, from the PNU-CVSP lab.">
+  <link rel="canonical" href="https://higokri.github.io/BTS/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BTS — Busan Token Pruning Series">
+  <meta property="og:description" content="Training-free token & KV pruning across image, 3D, and text modalities.">
+  <meta property="og:url" content="https://higokri.github.io/BTS/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#1a2233; --muted:#586074; --card:#f6f9fd; --line:#e2e9f3;
+      --navy:#1e3a8a; --accent:#2f6fe0; --accent2:#06c29c;
+      --img:#e0813a; --d3:#7b5cf0; --txt:#2f6fe0;
+      --shadow:0 10px 30px rgba(20,40,90,.08);
+    }
+    html[data-theme="dark"]{
+      --bg:#0e1626; --fg:#e7edf7; --muted:#9aa7bd; --card:#16203247; --line:#26324a;
+      --navy:#a9bdf0; --accent:#5b8def; --accent2:#22d3a6;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0; background:var(--bg); color:var(--fg); font-family:'Open Sans',sans-serif; line-height:1.6;
+      transition:background .3s,color .3s;}
+    a{color:var(--accent); text-decoration:none;}
+    h1,h2,h3,.brand{font-family:'Varela Round',sans-serif;}
+
+    /* nav */
+    nav{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px);
+      background:color-mix(in srgb,var(--bg) 82%,transparent); border-bottom:1px solid var(--line);}
+    .nav-in{max-width:1080px; margin:0 auto; padding:14px 22px; display:flex; align-items:center; gap:18px;}
+    .brand{font-size:22px; color:var(--navy); font-weight:700; letter-spacing:.5px;}
+    .brand span{color:var(--accent);}
+    .nav-sp{flex:1;}
+    .nav-in a.nl{color:var(--fg); font-weight:600; font-size:15px;}
+    .nav-in a.nl:hover{color:var(--accent);}
+    .toggle{cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--fg);
+      width:38px; height:38px; border-radius:10px; font-size:15px;}
+
+    .wrap{max-width:1080px; margin:0 auto; padding:0 22px; position:relative; z-index:1;}
+
+    /* 광안리 Gwangalli night backdrop (real photo) */
+    .skyline{position:absolute; top:0; left:0; width:100%; height:600px; z-index:0; overflow:hidden;
+      pointer-events:none;}
+    .skyline .photo{position:absolute; inset:0; background:url('static/images/busan_bg.jpg') center top/cover no-repeat;
+      opacity:.22;}
+    html[data-theme="dark"] .skyline .photo{opacity:.34;}
+    .skyline::after{content:""; position:absolute; inset:0;
+      background:linear-gradient(to bottom, color-mix(in srgb,var(--bg) 30%,transparent) 0%, transparent 30%, var(--bg) 92%);}
+    /* 부기 mascot */
+    .boogi{position:absolute; z-index:3; bottom:-38px; right:6px; width:128px; pointer-events:none;
+      filter:drop-shadow(0 10px 16px rgba(20,40,90,.25)); animation:bob 4s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-9px) rotate(1.5deg);}}
+    @media(max-width:900px){ .boogi{width:92px; bottom:-28px;} }
+    @media(max-width:560px){ .boogi{display:none;} }
+
+    /* hero */
+    .hero{text-align:center; padding:64px 0 26px; position:relative; z-index:1;}
+    .hero h1{font-size:64px; margin:0; color:var(--navy); letter-spacing:1px;}
+    .hero .bolt{display:inline-block; animation:zap 2.6s ease-in-out infinite;}
+    @keyframes zap{0%,72%,100%{transform:scale(1) rotate(0);opacity:.9;}
+      78%{transform:scale(1.25) rotate(-8deg);opacity:1;}84%{transform:scale(1.1) rotate(6deg);}}
+    .hero .expand{font-size:22px; font-weight:700; color:var(--fg); margin-top:6px;}
+    .hero .expand b{color:var(--accent);}
+    .hero p{max-width:660px; margin:16px auto 0; color:var(--muted); font-size:17px;}
+    .badges{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px;}
+    .badges img{height:26px;}
+
+    /* three circles */
+    .circles{display:flex; justify-content:center; align-items:flex-start; gap:38px; flex-wrap:wrap;
+      padding:46px 0 20px;}
+    .node{width:230px; text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:14px;
+      transition:transform .25s;}
+    .node:hover{transform:translateY(-6px);}
+    .ring{width:186px; height:186px; border-radius:50%; display:flex; flex-direction:column; align-items:center;
+      justify-content:center; position:relative; background:var(--card); border:3px solid var(--line);
+      box-shadow:var(--shadow); transition:border-color .25s, box-shadow .25s;}
+    .node:hover .ring{box-shadow:0 16px 40px rgba(20,40,90,.18);}
+    .node.img:hover .ring{border-color:var(--img);}
+    .node.d3:hover  .ring{border-color:var(--d3);}
+    .node.txt:hover .ring{border-color:var(--txt);}
+    .ring .emoji{font-size:52px; line-height:1;}
+    .ring .mod{margin-top:8px; font-family:'Varela Round'; font-size:19px; color:var(--fg); font-weight:700;}
+    .chip{position:absolute; top:-10px; right:8px; font-size:11px; font-weight:700; color:#fff;
+      padding:3px 10px; border-radius:999px; font-family:'Open Sans';}
+    .node.img .chip{background:var(--img);}
+    .node.d3  .chip{background:var(--d3);}
+    .node.txt .chip{background:var(--txt);}
+    .node .pname{font-family:'Varela Round'; font-size:23px; color:var(--navy); font-weight:700;}
+    .node .venue{font-size:13px; color:var(--muted); font-weight:600; margin-top:-8px;}
+    .node .go{font-size:13px; color:var(--accent); font-weight:700;}
+
+    /* project cards */
+    section{padding:40px 0;}
+    h2.sec{font-size:28px; color:var(--navy); position:relative; display:inline-block; margin:0 0 26px;}
+    h2.sec::after{content:""; position:absolute; left:0; bottom:-8px; width:52px; height:4px;
+      background:var(--accent); border-radius:3px;}
+    p.lead{font-size:17px; color:var(--muted); max-width:920px; margin:0;}
+    p.lead b{color:var(--fg);}
+    .cards{display:grid; grid-template-columns:1fr; gap:18px;}
+    .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 24px;
+      display:flex; gap:20px; align-items:flex-start; box-shadow:var(--shadow);}
+    .card .dot{flex:0 0 auto; width:52px; height:52px; border-radius:50%; display:flex; align-items:center;
+      justify-content:center; font-size:26px; background:var(--bg); border:2px solid var(--line);}
+    .card .body{flex:1;}
+    .card .body h3{margin:0 0 4px; font-size:21px; color:var(--fg);}
+    .card .body h3 a{color:var(--navy);}
+    .card .tags{display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px;}
+    .tag{font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px; background:var(--bg);
+      border:1px solid var(--line); color:var(--muted);}
+    .tag.mod-img{color:var(--img); border-color:var(--img);}
+    .tag.mod-3d{color:var(--d3); border-color:var(--d3);}
+    .tag.mod-txt{color:var(--txt); border-color:var(--txt);}
+    .card p{margin:0 0 12px; color:var(--muted); font-size:15px;}
+    .links a{display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:700; margin-right:14px;}
+
+    footer{border-top:1px solid var(--line); margin-top:20px; padding:26px 0; text-align:center;
+      color:var(--muted); font-size:14px;}
+
+    @media(max-width:720px){
+      .hero h1{font-size:46px;}
+      .circles{gap:26px;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-in">
+      <span class="brand">B<span>T</span>S</span>
+      <span class="nav-sp"></span>
+      <a class="nl" href="#projects">Projects</a>
+      <a class="nl" href="https://github.com/higokri/BTS" target="_blank"><i class="fab fa-github"></i></a>
+      <button class="toggle" id="themeBtn" aria-label="toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <div class="skyline" aria-hidden="true">
+    <div class="photo"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="hero">
+      <img class="boogi" src="static/images/boogi.png" alt="Boogi — Busan mascot">
+      <h1>BTS</h1>
+      <div class="expand"><b>B</b>usan <b>T</b>oken-pruning <b>S</b>eries <span class="bolt">⚡</span></div>
+      <p>A curated series of <b>training-free</b> token &amp; KV-cache pruning methods that
+        <b>⚡ prune away redundancy</b> while preserving performance — one recipe per modality, from the
+        <a href="https://www.pnu-cvsp.com/" target="_blank">PNU-CVSP</a> lab.</p>
+      <div class="badges">
+        <a href="https://github.com/higokri/BTS/stargazers"><img src="https://img.shields.io/github/stars/higokri/BTS?style=social" alt="stars"></a>
+        <img src="https://img.shields.io/badge/Modalities-Image_%C2%B7_3D_%C2%B7_Text-2f6fe0" alt="modalities">
+        <img src="https://img.shields.io/badge/%E2%9A%A1_Approach-Training--free-06c29c" alt="training-free">
+      </div>
+    </header>
+
+    <div class="circles">
+      <a class="node img" href="https://paper.pnu-cvsp.com/AgilePruner/" target="_blank">
+        <div class="ring"><span class="chip">Image</span><span class="emoji">🖼️</span><span class="mod">2D Vision</span></div>
+        <span class="pname">AgilePruner</span>
+        <span class="venue">ICLR 2026</span>
+        <span class="go">Visit page →</span>
+      </a>
+      <a class="node d3" href="https://paper.pnu-cvsp.com/3DZip/" target="_blank">
+        <div class="ring"><span class="chip">3D</span><span class="emoji">🧊</span><span class="mod">3D Scene</span></div>
+        <span class="pname">3DZip</span>
+        <span class="venue">ECCV 2026</span>
+        <span class="go">Visit page →</span>
+      </a>
+      <a class="node txt" href="https://higokri.github.io/HybridKV/" target="_blank">
+        <div class="ring"><span class="chip">Text</span><span class="emoji">💬</span><span class="mod">Language</span></div>
+        <span class="pname">HybridKV</span>
+        <span class="venue">ICMLw 2026</span>
+        <span class="go">Visit page →</span>
+      </a>
+    </div>
+
+    <section id="projects">
+      <h2 class="sec">Overview</h2>
+      <p class="lead">The <b>Busan Token-pruning Series</b> is not confined to a single modality. It shares one goal —
+        <b>⚡ prune redundant tokens without any training</b> for efficient inference — while each work develops its
+        <b>own method</b> suited to its domain: spatial grids for <b>3D</b>, attention heads for <b>language</b>, and
+        visual tokens for <b>images</b>. A common goal, modality-specific solutions.</p>
+
+      <h2 class="sec" style="margin-top:34px;">⚡ Projects</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="dot">🖼️</div>
+          <div class="body">
+            <h3><a href="https://paper.pnu-cvsp.com/AgilePruner/" target="_blank">AgilePruner</a></h3>
+            <div class="tags"><span class="tag mod-img">Image</span><span class="tag">ICLR 2026</span><span class="tag">Training-free</span></div>
+            <p>Efficient token pruning for 2D vision models — removes redundant visual tokens while keeping accuracy.</p>
+            <div class="links">
+              <a href="https://paper.pnu-cvsp.com/AgilePruner/" target="_blank"><i class="fas fa-globe"></i> Project</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="dot">🧊</div>
+          <div class="body">
+            <h3><a href="https://paper.pnu-cvsp.com/3DZip/" target="_blank">3DZip</a></h3>
+            <div class="tags"><span class="tag mod-3d">3D</span><span class="tag">ECCV 2026</span><span class="tag">Training-free</span></div>
+            <p>Spatial-aware, feature-diversity-guided token compression for 3D question answering — retains
+              <b>94.7%</b> performance with only <b>128</b> tokens at <b>1.92×</b> faster inference.</p>
+            <div class="links">
+              <a href="https://paper.pnu-cvsp.com/3DZip/" target="_blank"><i class="fas fa-globe"></i> Project</a>
+              <a href="https://github.com/cvsp-lab/3DZip" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="dot">💬</div>
+          <div class="body">
+            <h3><a href="https://higokri.github.io/HybridKV/" target="_blank">HybridKV</a></h3>
+            <div class="tags"><span class="tag mod-txt">Text</span><span class="tag">ICMLw 2026</span><span class="tag">Query-agnostic</span></div>
+            <p>Query-agnostic KV-cache compression via head-dominant context reconstruction — matches full
+              reconstruction at up to <b>36%</b> less compression overhead.</p>
+            <div class="links">
+              <a href="https://higokri.github.io/HybridKV/" target="_blank"><i class="fas fa-globe"></i> Project</a>
+              <a href="https://github.com/higokri/HybridKV" target="_blank"><i class="fab fa-github"></i> Code</a>
+              <a href="https://openreview.net/forum?id=sWF4OAXw7u" target="_blank"><i class="fas fa-file-lines"></i> Paper</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <b>BTS</b> · Busan Token-pruning Series · <a href="https://www.pnu-cvsp.com/" target="_blank">Pusan National University — CVSP Lab</a>
+  </footer>
+
+  <script>
+    const root=document.documentElement, btn=document.getElementById('themeBtn');
+    function setTheme(t){root.setAttribute('data-theme',t);
+      btn.innerHTML=t==='dark'?'<i class="fas fa-sun"></i>':'<i class="fas fa-moon"></i>';
+      try{localStorage.setItem('bts-theme',t);}catch(e){}}
+    setTheme((()=>{try{return localStorage.getItem('bts-theme')||'light';}catch(e){return 'light';}})());
+    btn.onclick=()=>setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');
+  </script>
+</body>
+</html>
