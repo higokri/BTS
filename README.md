@@ -2,7 +2,8 @@
 
 <p align="center">
   <b>B</b>usan <b>T</b>oken-pruning <b>S</b>eries is a curated collection of <b>training-free</b> token &amp; KV-cache
-  pruning methods across <b>image</b>, <b>3D</b>, and <b>text</b> modalities, from the
+  pruning methods across <b>image</b>, <b>3D</b>, and <b>text</b> — on a mission to become the
+  <b>first pruning series with a method for every modality</b>, from the
   <a href="https://www.pnu-cvsp.com/">PNU-CVSP</a> lab.
 </p>
 
