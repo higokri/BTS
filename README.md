@@ -1,4 +1,4 @@
-<h1 align="center">BTS ⚡ Busan Token-pruning Series</h1>
+<h1 align="center">BTS: Busan Token-pruning Series</h1>
 
 <p align="center">
   <b>B</b>usan <b>T</b>oken-pruning <b>S</b>eries is a curated collection of training-free <b>token &amp; KV-cache
