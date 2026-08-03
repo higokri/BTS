@@ -27,6 +27,7 @@
 | 🖼️ | **AgilePruner** | Image | ICLR 2026 | Prunes visual tokens via complexity, diversity & attention analysis | [Page](https://paper.pnu-cvsp.com/AgilePruner/) |
 | 🧊 | **3DZip** | 3D | ECCV 2026 | 94.7% performance with 128 tokens, 1.92× faster | [Page](https://paper.pnu-cvsp.com/3DZip/) · [Code](https://github.com/cvsp-lab/3DZip) |
 | 💬 | **HybridKV** | Text | ICMLw 2026 | Query-agnostic KV compression, up to 36% less overhead | [Page](https://higokri.github.io/HybridKV/) · [Code](https://github.com/higokri/HybridKV) · [Paper](https://openreview.net/forum?id=sWF4OAXw7u) |
+| 💬 | **RestoreKV** | Text | — | Learned budget-matched restoration for query-agnostic KV eviction | [Page](https://paper.pnu-cvsp.com/RestoreKV/) |
 
 ## 🎯 Overview
 
