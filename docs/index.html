@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BTS — Busan Token-pruning Series</title>
-  <meta name="description" content="BTS (Busan Token-pruning Series): a curated collection of training-free token & KV cache pruning methods across image, 3D, and text modalities, from the PNU-CVSP lab.">
+  <meta name="description" content="BTS (Busan Token-pruning Series): a curated collection of token & KV cache pruning methods across image, 3D, and text modalities, from the PNU-CVSP lab.">
   <link rel="canonical" href="https://higokri.github.io/BTS/">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:title" content="BTS — Busan Token-pruning Series">
-  <meta property="og:description" content="Training-free token & KV pruning across image, 3D, and text modalities.">
+  <meta property="og:description" content="Token & KV pruning across image, 3D, and text modalities.">
   <meta property="og:url" content="https://higokri.github.io/BTS/">
   <meta property="og:image" content="https://higokri.github.io/BTS/static/images/busan_bg.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -147,6 +147,12 @@
       border:1px solid color-mix(in srgb,var(--cc) 30%,transparent);}
     .card .body{flex:1; min-width:0;}
     .card .body h3{margin:0 0 6px; font-size:23px;}
+    .new-badge{display:inline-block; vertical-align:middle; margin-left:9px; font-family:'Open Sans';
+      font-size:11px; font-weight:800; letter-spacing:.6px; color:#fff; padding:3px 10px; border-radius:999px;
+      background:linear-gradient(135deg,#ff7a59,#ff4d6d); box-shadow:0 3px 10px rgba(255,77,109,.42);
+      animation:newpulse 1.8s ease-in-out infinite;}
+    @keyframes newpulse{0%,100%{transform:scale(1); box-shadow:0 3px 10px rgba(255,77,109,.42);}
+      50%{transform:scale(1.09); box-shadow:0 5px 16px rgba(255,77,109,.6);}}
     .card .body h3 a{color:var(--navy);}
     .card .body h3 a:hover{color:var(--accent);}
     .tags{display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 12px;}
@@ -194,7 +200,7 @@
           <img class="shot" src="static/images/busan_night.png" alt="Busan · Gwangan Bridge at night">
           <img class="boogi" src="static/images/boogi.png" alt="Boogi — Busan mascot">
         </div>
-        <p>BTS is a curated series of training-free <b>token &amp; KV-cache pruning methods</b> that
+        <p>BTS is a curated series of <b>token &amp; KV-cache pruning methods</b> that
           <b>⚡ prune away redundancy</b> while preserving performance across <b>image, 3D, and text</b> — on a mission
           to become the <b>first pruning series with a method for every modality</b>, from the
           <a href="https://www.pnu-cvsp.com/" target="_blank">PNU-CVSP</a> lab.</p>
@@ -211,7 +217,7 @@
       <div class="eyebrow">Overview</div>
       <h2 class="sec">One goal, every modality</h2>
       <p class="lead">The <b>Busan Token-pruning Series</b> is not confined to a single modality. It shares one goal —
-        <b>⚡ prune redundant tokens without any training</b> for efficient inference — while each work develops its
+        <b>⚡ prune redundant tokens</b> for efficient inference — while each work develops its
         <b>own method</b> for a different modality: <b>image</b>, <b>3D</b>, and <b>text</b>. A common goal,
         modality-specific solutions.</p>
     </section>
@@ -230,7 +236,7 @@
           <div class="dot">🖼️</div>
           <div class="body">
             <h3><a href="https://paper.pnu-cvsp.com/AgilePruner/" target="_blank">AgilePruner</a></h3>
-            <div class="tags"><span class="tag k">Image</span><span class="tag">ICLR 2026</span><span class="tag">Training-free</span></div>
+            <div class="tags"><span class="tag k">Image</span><span class="tag">ICLR 2026</span></div>
             <p>Efficient visual token pruning for 2D vision models — jointly analyzes token <b>complexity</b>,
               <b>diversity</b>, and <b>attention</b> to drop redundant tokens while keeping accuracy.</p>
             <div class="links">
@@ -243,7 +249,7 @@
           <div class="dot">🧊</div>
           <div class="body">
             <h3><a href="https://paper.pnu-cvsp.com/3DZip/" target="_blank">3DZip</a></h3>
-            <div class="tags"><span class="tag k">3D</span><span class="tag">ECCV 2026</span><span class="tag">Training-free</span></div>
+            <div class="tags"><span class="tag k">3D</span><span class="tag">ECCV 2026</span></div>
             <p>Spatial-aware, feature-diversity-guided token compression for 3D question answering — retains
               <b>94.7%</b> performance with only <b>128</b> tokens at <b>1.92×</b> faster inference.</p>
             <div class="links">
@@ -271,8 +277,8 @@
         <div class="card txt reveal" data-mod="txt">
           <div class="dot">💬</div>
           <div class="body">
-            <h3><a href="https://paper.pnu-cvsp.com/RestoreKV/" target="_blank">RestoreKV</a></h3>
-            <div class="tags"><span class="tag k">Text</span><span class="tag">Query-agnostic</span><span class="tag">KV eviction</span></div>
+            <h3><a href="https://paper.pnu-cvsp.com/RestoreKV/" target="_blank">RestoreKV</a> <span class="new-badge">NEW</span></h3>
+            <div class="tags"><span class="tag k">Text</span><span class="tag">Preprint</span><span class="tag">Query-agnostic</span></div>
             <p>Complements query-agnostic KV cache <b>eviction</b> with a learned, budget-matched <b>restoration</b> pass
               — recovering full-cache behavior under aggressive compression while training only <b>0.4%</b> of parameters.</p>
             <div class="links">
